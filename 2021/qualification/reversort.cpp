@@ -4,31 +4,43 @@
 #include <algorithm>
 using namespace std;
 
+int findMinPos(int* arr, int start, int n) {
+    int pos_min = 0, min = arr[start];
+    for(int i=start+1; i<n; i++) {
+        if(arr[i] < min) {
+            pos_min = i;
+            min = arr[i];
+        }
+    }
+    return pos_min;
+}
+
 int main() {
-    int T=0, n=0, ans=0;
+    int T=0, n=0, ans=0, min=0, pos_min=0;
     cin >> T;
     for(int t=1; t<=T; t++) {
         cin >> n;
-        int arr[n+1];
+        int arr[n+1], reverseArr[n+1];
         for(int i=0; i<n; i++) {
             cin >> arr[i];
         }
         for(int i=0; i<n-1; i++) {
-            int min = arr[i];
-            int pos_min = i;
-            for(int j=i; j<n-1; j++) {
-                // find min
-                if(arr[j+1] < min) {
-                    min = arr[j+1];
-                    pos_min = j+1;
-                }
+            pos_min = findMinPos(arr, i, n);
+            min = arr[pos_min];
+            if(pos_min == 0) {
+                ans += 1;
+                continue;
+            }
+
+            // reverse
+            int tmpReverse[pos_min+1];
+            for(int p=0; p<=pos_min-i; p++) {
+                tmpReverse[p] = arr[pos_min-p];
+            }
+            for(int j=i; j<pos_min+1; j++) {
+                arr[j] = tmpReverse[j-i];
             }
             ans += pos_min-i+1;
-            for(int m=0; m<(pos_min-i)/2; m++) {
-                int tmp = arr[pos_min];
-                arr[pos_min] = arr[m+i];
-                arr[m+i] = tmp;
-            }
         }
         cout << "Case #" << t << ": " << ans << endl;
         ans = 0;
