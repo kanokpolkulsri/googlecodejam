@@ -1,5 +1,5 @@
 # googlecodejam
-
+```
 int start_up() {
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
@@ -8,3 +8,4 @@ int start_up() {
 
 int static r = start_up();
 #define endl '\n';
+```
